@@ -56,20 +56,15 @@ defmodule Seismo.Accelerometer do
     Logger.info("y: #{read_sensor(state.bus, 1)}")
     Logger.info("Read z axis")
     Logger.info("z: #{read_sensor(state.bus, 2)}")
+  
+    {:noreply, state}
   end
 
   defp read_sensor(ref, sensor) do 
     {channel_value, _} = Integer.parse("#{sensor + 40}", 16)
 
-    result = I2C.write(ref, 0x48, <<channel_value>>)
+    {:ok, <<val>>} = I2C.write_read(ref, 0x48, <<channel_value>>, 1)
 
-    Logger.info("Result from write #{inspect(result)}")
-    
-    case I2C.read(ref, 0x48, sensor) do 
-      {:ok, <<val>>} ->
-        val 
-      {:error, _} ->
-        :error
-    end 
+    val
   end 
 end 
