@@ -18,7 +18,6 @@ defmodule Seismo.Application do
   def children(:host) do
     [
       # Starts a worker by calling: Seismo.Worker.start_link(arg)
-      # {Seismo.Worker, arg},
     ]
   end
 
@@ -26,6 +25,7 @@ defmodule Seismo.Application do
     [
       # Starts a worker by calling: Seismo.Worker.start_link(arg)
       # {Seismo.Worker, arg},
+      {Seismo.Accelerometer, []}
     ]
   end
 end
